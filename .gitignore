@@ -1,0 +1,5 @@
+.env
+.venv
+/build
+build.zip
+__pycache__
