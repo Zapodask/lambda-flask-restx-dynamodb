@@ -13,32 +13,32 @@ env_table = os.getenv('TABLE')
 dynamodb = resource('dynamodb')
 table = dynamodb.Table(env_table)
 
-api = Namespace('users/', description='Users')
+users = Namespace('users/', description='Users')
 
-userReturn = api.model('User', {
+userReturn = users.model('User', {
     'id': fields.String(readonly=True),
     'username': fields.String(),
     'password': fields.String(),
     'created_at': fields.String()
 })
 
-userExpect = api.model('User', {
-    'username': fields.String(),
+userExpect = users.model('User', {
+    'username': fields.String(required=True),
     'password': fields.String(required=True)
 })
 
-@api.route('/')
+@users.route('/')
 class Index(Resource):
-    @api.doc('list_users')
-    @api.marshal_list_with(userReturn)
+    @users.doc('list_users')
+    @users.marshal_list_with(userReturn)
     def get(self):
         response = table.scan()
 
         return response['Items']
 
 
-    @api.doc('store_user')
-    @api.expect(userExpect)
+    @users.doc('store_user')
+    @users.expect(userExpect)
     def post(self):
         data = request.get_json()
 
@@ -53,12 +53,12 @@ class Index(Resource):
 
 
 
-@api.route('/<int:id>')
-@api.param('id', 'User identifier')
-@api.response(404, 'User not found')
+@users.route('/<int:id>')
+@users.param('id', 'User identifier')
+@users.response(404, 'User not found')
 class Id(Resource):
-    @api.doc('show_user')
-    @api.marshal_with(userReturn)
+    @users.doc('show_user')
+    @users.marshal_with(userReturn)
     def get(self, id):
         response = table.get_item(
             Key={
@@ -69,9 +69,9 @@ class Id(Resource):
         return response['Item']
 
 
-    @api.doc('update_user')
-    @api.expect(userExpect)
-    @api.marshal_with(userReturn)
+    @users.doc('update_user')
+    @users.expect(userExpect)
+    @users.marshal_with(userReturn)
     def put(self, id):
         data = request.get_json()
 
@@ -95,7 +95,7 @@ class Id(Resource):
         return response['Item']
 
 
-    @api.doc('delete_user')
+    @users.doc('delete_user')
     def delete(self, id):
         table.delete_item(
             Key={

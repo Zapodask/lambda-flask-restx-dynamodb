@@ -1,8 +1,8 @@
-from functions.s3 import update as u_s3
-from functions.lambda_f import update as u_lambda_f
+from functions.S3 import S3
+from functions.Lambda import Lambda
 
 # Update s3 bucket
-u_s3()
+S3.update()
 
 # Update lambda function
-u_lambda_f()
+Lambda.update()

@@ -1,20 +1,23 @@
-from functions.iam import create as c_iam
-from functions.dynamodb import create as c_dynamodb
-from functions.s3 import create as c_s3, update as u_s3
-from functions.lambda_f import create as c_lambda_f
+from functions.Iam import Iam
+from functions.Dynamodb import Dynamodb
+from functions.S3 import S3
+from functions.Lambda import Lambda
+from functions.CloudWatch import CloudWatch
 
 # Create iam function and add permissions
-c_iam()
+Iam.create()
 
 # Create dynamodb table
-c_dynamodb()
+Dynamodb.create()
 
 # Create s3 bucket
-c_s3()
+S3.create()
 
 # Update s3 bucket
-u_s3()
+S3.update()
 
 # Create lambda function
-c_lambda_f()
+Lambda.create()
 
+# Create log group
+CloudWatch.create()

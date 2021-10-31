@@ -8,28 +8,30 @@ table = os.getenv('TABLE')
 
 client = boto3.resource('dynamodb')
 
-def create():
-    try:
-        client.create_table(
-            TableName=table,
-            KeySchema=[
-                {
-                    'AttributeName': 'id',
-                    'KeyType': 'HASH'
-                }
-            ],
-            AttributeDefinitions=[
-                {
-                    'AttributeName': 'id',
-                    'AttributeType': 'N'
-                }
-            ],
-            ProvisionedThroughput={
-                'ReadCapacityUnits': 10,
-                'WriteCapacityUnits': 10
-            }
-        )
-    except Exception as e:
-        print(e)
 
-    print('Dynamodb table created')
+class Dynamodb():
+    def create(self):
+        try:
+            client.create_table(
+                TableName=table,
+                KeySchema=[
+                    {
+                        'AttributeName': 'id',
+                        'KeyType': 'HASH'
+                    }
+                ],
+                AttributeDefinitions=[
+                    {
+                        'AttributeName': 'id',
+                        'AttributeType': 'N'
+                    }
+                ],
+                ProvisionedThroughput={
+                    'ReadCapacityUnits': 10,
+                    'WriteCapacityUnits': 10
+                }
+            )
+        except Exception as e:
+            print(e)
+
+        print('Dynamodb table created')
